@@ -85,18 +85,267 @@
     .toast { position:fixed; right:24px; bottom:24px; background:#123b43; color:#fff; padding:13px 17px; border-radius:10px; box-shadow:var(--shadow); transform:translateY(20px); opacity:0; pointer-events:none; transition:.25s; font-size:14px; } .toast.show { opacity:1; transform:none; }
     @media (max-width:1050px) { .app { grid-template-columns:205px 1fr; } main { padding:25px; } .rooms { grid-template-columns:repeat(2,1fr); } }
     @media (max-width:760px) { .app { display:block; } aside { position:sticky; top:0; z-index:5; padding:13px 14px; gap:12px; } .brand { padding:0 4px; } .brand span { display:none; } nav { display:flex; overflow:auto; gap:5px; padding-bottom:2px; } .nav-label, .side-foot { display:none; } .nav-btn { width:auto; flex:0 0 auto; padding:9px 11px; font-size:13px; } .nav-btn .ico { font-size:16px; width:auto; } main { padding:22px 15px 35px; } .topbar { display:block; } .actions { justify-content:flex-start; margin-top:16px; } h1 { font-size:25px; } .stats { grid-template-columns:repeat(2,1fr); gap:10px; } .stat { padding:15px; } .stat .num { font-size:26px; } .grid-two, .import-box, .calc { grid-template-columns:1fr; } .rooms { grid-template-columns:1fr; } .panel { padding:16px; } .search { width:100%; } }
+    /* Award-quality visual pass: preserve all content, elevate hierarchy and interaction clarity. */
+    :root { --ink:#10272d; --muted:#667d83; --line:#d9e5e6; --paper:#eef4f3; --card:rgba(255,255,255,.94); --teal:#0f8f93; --teal-deep:#07545c; --mint:#dff5ed; --gold:#fff0c8; --coral:#ffe1db; --shadow:0 24px 70px rgba(10,42,48,.10); --shadow-soft:0 10px 28px rgba(10,42,48,.07); }
+    html { background:#eef4f3; scroll-behavior:smooth; }
+    body { background:radial-gradient(circle at 84% -10%, rgba(70,185,177,.16), transparent 29rem), linear-gradient(135deg,#f5faf9 0%,#edf4f3 100%); letter-spacing:.005em; }
+    body:before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.25; background-image:linear-gradient(rgba(15,143,147,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(15,143,147,.05) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 80%); }
+    .app { grid-template-columns:276px minmax(0,1fr); position:relative; }
+    aside { position:sticky; top:0; height:100vh; background:linear-gradient(160deg,#082a32 0%,#0b3b42 58%,#08272f 100%); border-right:1px solid rgba(255,255,255,.08); padding:31px 19px 22px; box-shadow:18px 0 60px rgba(4,36,42,.12); }
+    .brand { padding:0 11px 28px; border-bottom:1px solid rgba(217,236,238,.12); }
+    .brand-mark { width:44px; height:44px; border-radius:14px; background:linear-gradient(145deg,#2dc0b0,#0e7c8d); box-shadow:0 12px 24px rgba(36,186,174,.28); }
+    .brand strong { font-size:16px; letter-spacing:.06em; }
+    .brand span { color:#8db8bd; letter-spacing:.04em; }
+    .nav-label { margin:3px 11px 11px; color:#75a2a8; font-size:10px; font-weight:800; }
+    nav { gap:5px; }
+    .nav-btn { position:relative; padding:13px 14px; border-radius:12px; color:#b8d3d5; transition:background .25s, color .25s, transform .25s; }
+    .nav-btn:hover { background:rgba(94,194,185,.10); color:#fff; transform:translateX(2px); }
+    .nav-btn.active { background:linear-gradient(90deg,rgba(52,190,180,.25),rgba(52,190,180,.07)); color:#fff; box-shadow:inset 0 0 0 1px rgba(112,222,210,.11); }
+    .nav-btn.active:before { content:""; position:absolute; left:-19px; top:10px; bottom:10px; width:3px; border-radius:0 4px 4px 0; background:#65ddd0; box-shadow:0 0 18px rgba(101,221,208,.65); }
+    .nav-btn .ico { color:#75d7cf; }
+    .side-foot { border-color:rgba(177,224,225,.17); background:rgba(255,255,255,.035); color:#b1ced0; }
+    main { padding:44px clamp(25px,4.2vw,70px) 64px; max-width:1680px; width:100%; }
+    .topbar { margin-bottom:30px; }
+    .eyebrow { color:#087f83; font-size:11px; font-weight:850; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { font-size:clamp(32px,3vw,47px); line-height:1.05; letter-spacing:-.055em; font-weight:850; }
+    .sub { font-size:15px; line-height:1.65; }
+    .actions { gap:10px; }
+    .btn { border-radius:11px; padding:12px 16px; letter-spacing:.01em; box-shadow:none; }
+    .btn-primary { background:linear-gradient(135deg,#159da0,#0c737d); box-shadow:0 10px 24px rgba(13,126,132,.22); }
+    .btn-primary:hover { background:linear-gradient(135deg,#0e858a,#075862); box-shadow:0 12px 28px rgba(13,126,132,.28); transform:translateY(-2px); }
+    .btn-soft { background:#e1f4f0; border:1px solid #cce8e3; }
+    .btn-plain { background:rgba(255,255,255,.74); }
+    .stats { gap:17px; margin-bottom:22px; }
+    .stat, .panel { border-color:rgba(168,195,196,.62); border-radius:18px; box-shadow:var(--shadow-soft); }
+    .stat { padding:22px; background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(246,252,251,.9)); }
+    .stat:before { content:""; position:absolute; left:0; top:0; right:0; height:3px; background:linear-gradient(90deg,#22a99f,transparent); opacity:.8; }
+    .stat:after { background:rgba(77,190,177,.11); }
+    .stat .label { font-size:12px; font-weight:750; letter-spacing:.04em; }
+    .stat .num { font-size:34px; margin-top:12px; }
+    .grid-two, .checkin-grid { gap:22px; }
+    .panel { padding:23px; background:var(--card); backdrop-filter:blur(10px); }
+    .panel:hover { box-shadow:0 18px 42px rgba(10,42,48,.10); }
+    .panel-head { margin-bottom:19px; }
+    .panel h2 { font-size:18px; font-weight:820; }
+    .panel-note { line-height:1.5; }
+    .notice { margin-top:22px; border-radius:15px; border-color:#efd99d; box-shadow:var(--shadow-soft); }
+    .field, .search { min-height:44px; border-radius:11px; border-color:#cbdcde; background:rgba(255,255,255,.92); transition:border .2s, box-shadow .2s, transform .2s; }
+    .field:hover, .search:hover { border-color:#9bc9c9; }
+    .field:focus, .search:focus { border-color:#36a8a5; box-shadow:0 0 0 4px rgba(54,168,165,.13); transform:translateY(-1px); }
+    .room-card { border-radius:15px; border-color:#d6e5e5; background:linear-gradient(145deg,#fff,#f7fbfa); transition:transform .22s, box-shadow .22s, border .22s; }
+    .room-card:hover { transform:translateY(-3px); border-color:#9bd0cb; box-shadow:0 14px 28px rgba(10,55,61,.09); }
+    .bed { background:#f0f7f5; }
+    .badge { padding:6px 10px; letter-spacing:.01em; }
+    .table-wrap { border:1px solid #e1ebeb; border-radius:13px; }
+    table { min-width:760px; }
+    th { background:#f2f8f7; color:#557076; letter-spacing:.07em; text-transform:uppercase; }
+    th, td { padding:14px 13px; }
+    tbody tr { transition:background .18s; }
+    tbody tr:hover { background:#eff9f6; }
+    .drop { border-color:#75beba; background:linear-gradient(145deg,#f4fcfa,#edf9f5); }
+    .calc-card { border:1px solid #d8ece8; background:linear-gradient(145deg,#f4fbf9,#eaf8f4); }
+    .money { letter-spacing:-.05em; }
+    .reader-status { border:1px solid #caeadd; }
+    .lookup-result { box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),0 9px 20px rgba(28,116,103,.06); }
+    .toast { right:28px; bottom:28px; border:1px solid rgba(160,230,220,.24); backdrop-filter:blur(14px); }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline:3px solid #f2bb5b; outline-offset:3px; }
+    .nav-btn.active .ico { filter:drop-shadow(0 0 7px rgba(101,221,208,.45)); }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; } }
+    ::selection { background:#bcebe2; color:#073d45; }
+    ::-webkit-scrollbar { width:10px; height:10px; }
+    ::-webkit-scrollbar-track { background:#e8f1f0; }
+    ::-webkit-scrollbar-thumb { background:#a8caca; border:3px solid #e8f1f0; border-radius:999px; }
+    .topbar > div:first-child { position:relative; }
+    .topbar > div:first-child:after { content:""; display:block; width:46px; height:3px; margin-top:18px; border-radius:999px; background:linear-gradient(90deg,#1ca49e,#8ad7c9); }
+    .actions .btn { min-height:44px; }
+    .stat:nth-child(2):before { background:linear-gradient(90deg,#e7ad4d,transparent); }
+    .stat:nth-child(3):before { background:linear-gradient(90deg,#dd7168,transparent); }
+    .stat:nth-child(4):before { background:linear-gradient(90deg,#27a875,transparent); }
+    .activity-row { transition:background .18s, padding-left .18s; }
+    .activity-row:hover { padding-left:7px; background:linear-gradient(90deg,#f1faf7,transparent); }
+    .bar { transform-origin:left center; animation:bar-in .8s cubic-bezier(.22,.8,.3,1) both; }
+    @keyframes bar-in { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+    .table-wrap { -webkit-overflow-scrolling:touch; }
+    th { position:sticky; top:0; z-index:1; }
+    @media (max-width:760px) { .topbar > div:first-child:after { margin-top:14px; } .actions { display:grid; grid-template-columns:1fr 1fr; } .actions .btn { width:100%; } .input-row { align-items:stretch; } .input-row .btn { min-width:88px; } .table-wrap { border-radius:11px; } th { position:static; } }
+    /* Apple-inspired refinement: quiet neutrals, glass surfaces, one purposeful accent. */
+    :root { --ink:#1d1d1f; --muted:#6e6e73; --line:#d2d2d7; --paper:#f5f5f7; --card:rgba(255,255,255,.82); --teal:#0071e3; --teal-deep:#005bb7; --mint:#e8f3ff; --gold:#fff7df; --coral:#fff0ee; --shadow:0 22px 55px rgba(0,0,0,.06); --shadow-soft:0 10px 28px rgba(0,0,0,.045); }
+    html { background:#f5f5f7; }
+    body { color:var(--ink); background:radial-gradient(circle at 92% -10%,rgba(0,113,227,.08),transparent 28rem),linear-gradient(135deg,#fbfbfd 0%,#f2f2f4 100%); font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","Noto Sans TC",sans-serif; letter-spacing:0; }
+    body:before { opacity:.08; background-image:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px); background-size:48px 48px; }
+    aside { background:rgba(255,255,255,.72); color:#1d1d1f; border-right:1px solid rgba(0,0,0,.07); box-shadow:18px 0 46px rgba(0,0,0,.04); backdrop-filter:blur(28px); }
+    .brand { border-bottom-color:rgba(0,0,0,.08); }
+    .brand-mark { background:linear-gradient(145deg,#38a5ff,#0071e3); box-shadow:0 10px 22px rgba(0,113,227,.2); }
+    .brand strong { color:#1d1d1f; font-weight:750; }
+    .brand span { color:#86868b; }
+    .nav-label { color:#86868b; letter-spacing:.12em; }
+    .nav-btn { color:#6e6e73; }
+    .nav-btn:hover { background:rgba(0,0,0,.045); color:#1d1d1f; transform:none; }
+    .nav-btn.active { background:rgba(0,0,0,.065); color:#1d1d1f; box-shadow:none; }
+    .nav-btn.active:before { background:#0071e3; box-shadow:none; }
+    .nav-btn .ico { color:#0071e3; }
+    .side-foot { border-color:rgba(0,0,0,.08); background:rgba(255,255,255,.55); color:#6e6e73; }
+    main { padding-top:50px; }
+    .eyebrow { color:#6e6e73; font-size:12px; font-weight:700; letter-spacing:.11em; }
+    h1 { color:#1d1d1f; font-weight:750; letter-spacing:-.055em; }
+    .sub { color:#6e6e73; }
+    .topbar > div:first-child:after { background:#1d1d1f; height:2px; width:32px; margin-top:20px; }
+    .btn { border-radius:999px; font-weight:650; }
+    .btn-primary { background:#0071e3; box-shadow:none; }
+    .btn-primary:hover { background:#0077ed; box-shadow:0 8px 18px rgba(0,113,227,.18); transform:translateY(-1px); }
+    .btn-soft { color:#0071e3; background:#e8f3ff; border-color:transparent; }
+    .btn-plain { color:#1d1d1f; background:rgba(255,255,255,.86); border-color:#d2d2d7; }
+    .stat, .panel { border-color:rgba(0,0,0,.08); border-radius:24px; box-shadow:var(--shadow-soft); background:var(--card); backdrop-filter:blur(18px); }
+    .stat { padding:23px; }
+    .stat:before { height:2px; background:#0071e3; opacity:.55; }
+    .stat:nth-child(2):before,.stat:nth-child(3):before,.stat:nth-child(4):before { background:#1d1d1f; opacity:.18; }
+    .stat:after { background:rgba(0,113,227,.07); }
+    .stat .label { color:#6e6e73; font-size:12px; font-weight:650; }
+    .stat .num { color:#1d1d1f; font-weight:750; letter-spacing:-.07em; }
+    .stat .hint { color:#86868b; }
+    .green { color:#16835b; } .amber { color:#ad7412; } .blue { color:#0071e3; } .red { color:#c9342b; }
+    .panel:hover { box-shadow:0 18px 42px rgba(0,0,0,.065); }
+    .panel h2 { font-weight:700; letter-spacing:-.025em; }
+    .panel-note { color:#86868b; }
+    .field, .search { border-color:#d2d2d7; background:rgba(255,255,255,.9); border-radius:12px; }
+    .field:focus, .search:focus { border-color:#0071e3; box-shadow:0 0 0 4px rgba(0,113,227,.12); transform:none; }
+    .room-card { border-color:#d2d2d7; border-radius:18px; background:rgba(255,255,255,.7); }
+    .room-card:hover { border-color:#b7b7bd; box-shadow:0 14px 28px rgba(0,0,0,.06); transform:translateY(-2px); }
+    .bed { background:#f5f5f7; }
+    .badge { font-weight:650; }
+    .badge.green { background:#e8f6ef; } .badge.amber { background:#fff6df; } .badge.red { background:#ffefed; }
+    .table-wrap { border-color:#e0e0e4; border-radius:16px; }
+    th { color:#6e6e73; background:#f5f5f7; letter-spacing:.04em; }
+    td { color:#1d1d1f; }
+    tbody tr:hover { background:#f5f5f7; }
+    .drop { border-color:#b7d4f3; background:rgba(232,243,255,.6); border-radius:18px; }
+    .calc-card { border-color:#dce8f6; background:#f5faff; border-radius:18px; }
+    .reader-status { background:#edf7f2; border-color:#d8eee2; color:#167451; border-radius:12px; }
+    .lookup-result { border-color:#dbe7f4; background:#f7fbff; border-radius:16px; box-shadow:none; }
+    .notice { background:#fffaf0; border-color:#f1dfb0; border-radius:18px; box-shadow:none; }
+    .toast { background:rgba(29,29,31,.92); border:1px solid rgba(255,255,255,.12); border-radius:999px; box-shadow:0 12px 30px rgba(0,0,0,.18); }
+    .view { animation:fade .34s cubic-bezier(.22,.8,.3,1); }
+    @keyframes fade { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+    @media (max-width:1050px) { .app { grid-template-columns:225px 1fr; } main { padding:32px 25px 48px; } }
+    @media (max-width:760px) { body:before { opacity:.16; } aside { box-shadow:0 8px 24px rgba(4,36,42,.18); } .nav-btn.active:before { left:0; right:0; top:auto; bottom:0; width:auto; height:2px; border-radius:2px 2px 0 0; } main { padding:25px 15px 40px; } h1 { font-size:31px; } .sub { font-size:14px; } .panel { border-radius:15px; padding:18px; } .stat { border-radius:15px; padding:16px; } .stat .num { font-size:27px; } .table-wrap { margin-left:-3px; margin-right:-3px; } }
+
+    @media (max-width:760px) { aside { height:auto; min-height:0; } }
+
+    /* Operations framework: priority queue, shared actions, and room-level context. */
+    .nav-section-label { margin:20px 11px 7px; color:#8b8b91; font-size:10px; font-weight:750; letter-spacing:.08em; text-transform:uppercase; }
+    .command-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(290px,.8fr); gap:22px; margin:0 0 22px; }
+    .command-panel { border:1px solid rgba(0,0,0,.08); border-radius:24px; padding:23px; background:rgba(255,255,255,.82); box-shadow:var(--shadow-soft); backdrop-filter:blur(18px); }
+    .command-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+    .command-head h2 { margin:0; font-size:18px; letter-spacing:-.025em; }
+    .command-head p { margin:4px 0 0; color:#86868b; font-size:12px; }
+    .command-list { display:grid; gap:9px; margin-top:18px; }
+    .command-item { display:grid; grid-template-columns:38px 1fr auto; align-items:center; gap:11px; padding:12px; border:1px solid #d2d2d7; border-radius:16px; background:#fff; }
+    .command-item .command-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:11px; background:#e8f3ff; color:#0071e3; font-weight:800; }
+    .command-item .command-icon.amber { background:#fff4dd; color:#ad7412; }
+    .command-item strong { display:block; font-size:13px; }
+    .command-item small { display:block; margin-top:3px; color:#86868b; font-size:11px; }
+    .command-item time { color:#86868b; font-size:11px; white-space:nowrap; }
+    .quick-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:18px; }
+    .quick-actions button { padding:12px 10px; border:1px solid #d2d2d7; border-radius:14px; background:#fff; text-align:left; color:#1d1d1f; }
+    .quick-actions button:first-child { border-color:#b7d7ff; background:#f5faff; }
+    .quick-actions b { display:block; color:#0071e3; font-size:12px; }
+    .quick-actions span { display:block; margin-top:4px; color:#86868b; font-size:10px; }
+    .pulse-list { display:grid; gap:14px; margin-top:18px; }
+    .pulse-row { display:grid; gap:6px; }
+    .pulse-row > div { display:flex; justify-content:space-between; font-size:12px; }
+    .pulse-track { height:8px; overflow:hidden; border-radius:999px; background:#e8e8ed; }
+    .pulse-fill { height:100%; border-radius:inherit; background:linear-gradient(90deg,#25b89d,#0071e3); }
+    .pulse-metrics { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:17px; }
+    .pulse-metrics div { padding:13px; border-radius:15px; background:#f7f7f9; }
+    .pulse-metrics b { display:block; font-size:24px; letter-spacing:-.05em; }
+    .pulse-metrics span { color:#86868b; font-size:11px; }
+    .room-timeline { display:grid; gap:10px; margin-top:17px; }
+    .room-timeline-row { display:grid; grid-template-columns:55px 1fr 92px; gap:10px; align-items:center; font-size:12px; }
+    .room-timeline-row strong { font-size:12px; }
+    .room-timeline-row small { color:#86868b; font-size:10px; }
+    .timeline-track { height:10px; border-radius:999px; background:#e8e8ed; overflow:hidden; }
+    .timeline-fill { height:100%; border-radius:inherit; background:#0071e3; }
+    .timeline-fill.empty { width:8% !important; background:#d2d2d7; }
+    @media (max-width:900px) { .command-grid { grid-template-columns:1fr; } }
+    @media (max-width:760px) { .quick-actions { grid-template-columns:1fr; } .command-panel { padding:18px; border-radius:18px; } .room-timeline-row { grid-template-columns:48px 1fr 76px; } }
+    .succession-track { display:grid; gap:12px; margin-top:18px; }
+    .succession-row { display:grid; grid-template-columns:68px minmax(0,1fr) 110px; gap:12px; align-items:center; }
+    .succession-bed { font-weight:750; font-size:12px; }
+    .succession-lane { display:flex; min-height:48px; overflow:hidden; border-radius:14px; background:#f0f0f2; }
+    .succession-segment { display:flex; flex-direction:column; justify-content:center; min-width:120px; padding:7px 10px; border-right:2px solid #fff; background:#dfeeff; color:#155da0; }
+    .succession-segment.retired { background:#f1f1f3; color:#6e6e73; }
+    .succession-segment.current { background:#dff5ed; color:#167451; }
+    .succession-segment strong { font-size:12px; }
+    .succession-segment small { margin-top:2px; font-size:10px; opacity:.82; }
+    .succession-status { color:#86868b; font-size:10px; }
+    .segment-calc { margin-top:19px; }
+    .segment-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px; }
+    .segment-summary-card { padding:14px; border-radius:15px; background:#f7f7f9; }
+    .segment-summary-card strong { display:block; font-size:21px; letter-spacing:-.04em; }
+    .segment-summary-card span { color:#86868b; font-size:11px; }
+    .segment-table { margin-top:16px; overflow:auto; border:1px solid #e5e5ea; border-radius:14px; }
+    .segment-table table { min-width:680px; }
+    .segment-table th { background:#f7f7f9; }
+    .segment-table td { font-size:12px; }
+    .segment-table .current-person { color:#16835b; font-weight:750; }
+    .segment-table .retired-person { color:#86868b; }
+    @media (max-width:760px) { .succession-row { grid-template-columns:52px minmax(0,1fr); } .succession-status { grid-column:2; margin-top:-8px; } .succession-segment { min-width:105px; } .segment-summary { grid-template-columns:1fr; } }
+    .segment-editor { margin-top:18px; overflow:auto; border:1px solid #e5e5ea; border-radius:14px; }
+    .segment-editor table { min-width:1040px; }
+    .segment-editor th { background:#f7f7f9; }
+    .segment-editor td { padding:10px; vertical-align:middle; }
+    .segment-editor .mini-field { width:100%; min-width:96px; min-height:38px; padding:8px 9px; border:1px solid #d2d2d7; border-radius:9px; background:#fff; color:#1d1d1f; font:inherit; font-size:12px; }
+    .segment-editor .mini-field:focus { outline:3px solid rgba(0,113,227,.12); border-color:#0071e3; }
+    .date-range-fields { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:5px; min-width:228px; }
+    .date-range-fields .mini-field { min-width:0; }
+    .date-range-separator { color:#86868b; font-size:12px; }
+    .segment-editor .usage-cell { color:#0071e3; font-weight:750; white-space:nowrap; }
+    .segment-editor .cost-cell { color:#16835b; font-weight:750; white-space:nowrap; }
+    .segment-editor .remove-segment { padding:7px 9px; border:1px solid #d2d2d7; border-radius:999px; color:#6e6e73; background:#fff; }
+    .segment-editor .remove-segment:hover { color:#c9342b; border-color:#e6a7a2; }
+    .segment-add-row { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:12px; }
+    .segment-add-row small { color:#86868b; font-size:11px; }
+    .segment-add { padding:9px 13px; border:1px solid #b7d7ff; border-radius:999px; color:#0071e3; background:#f5faff; font-weight:700; }
+    .meter-labels { position:relative; height:27px; margin-left:0; }
+    .meter-marker { position:absolute; transform:translateX(-50%); padding:3px 8px; border:1px solid #d2d2d7; border-radius:7px; background:#fff; color:#1d1d1f; box-shadow:0 2px 5px rgba(0,0,0,.06); font-size:11px; font-weight:750; white-space:nowrap; }
+    .meter-marker.start { left:0; transform:none; }
+    .meter-marker.end { right:0; left:auto; transform:none; }
+    .meter-lane { min-width:0; }
+    @media (max-width:760px) { .meter-marker { padding:2px 5px; font-size:10px; } }
+    .meter-source-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; padding:10px 12px; border:1px solid #e5e5ea; border-radius:13px; background:#f7f7f9; }
+    .meter-source-bar span { color:#6e6e73; font-size:12px; }
+    .meter-source-select { min-height:36px; padding:7px 10px; border:1px solid #d2d2d7; border-radius:9px; background:#fff; color:#1d1d1f; font:inherit; font-size:12px; }
+    .meter-input { display:none; width:82px; min-height:29px; padding:4px 6px; border:1px solid #d2d2d7; border-radius:7px; background:#fff; color:#1d1d1f; font:inherit; font-size:11px; font-weight:700; }
+    .meter-source-bar.manual ~ .succession-track .meter-input { display:inline-block; }
+    .meter-source-bar.manual ~ .succession-track .meter-marker-value { display:none; }
+    .heatpump-panel { margin-top:19px; }
+    .heatpump-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:18px; }
+    .heatpump-field label { display:block; margin-bottom:6px; color:#6e6e73; font-size:11px; font-weight:700; }
+    .heatpump-field input { width:100%; min-height:42px; padding:9px 10px; border:1px solid #d2d2d7; border-radius:10px; background:#fff; color:#1d1d1f; font:inherit; }
+    .heatpump-field input:focus { outline:3px solid rgba(0,113,227,.12); border-color:#0071e3; }
+    .heatpump-subtitle { margin:20px 0 10px; color:#1d1d1f; font-size:13px; font-weight:750; }
+    .heatpump-results { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:18px; }
+    .heatpump-result { padding:14px; border-radius:15px; background:#f7f7f9; }
+    .heatpump-result span { display:block; color:#86868b; font-size:11px; }
+    .heatpump-result strong { display:block; margin-top:5px; font-size:22px; letter-spacing:-.04em; }
+    .heatpump-total { background:#e8f3ff; color:#0071e3; }
+    .heatpump-note { margin-top:13px; color:#86868b; font-size:11px; }
+    @media (max-width:900px) { .heatpump-grid { grid-template-columns:repeat(2,1fr); } .heatpump-results { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:760px) { .meter-source-bar { align-items:flex-start; flex-direction:column; } .heatpump-grid,.heatpump-results { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
   <div class="app">
     <aside>
       <div class="brand"><div class="brand-mark">⌂</div><div><strong>學七舍營運台</strong><span>Residence Operations</span></div></div>
-      <div><div class="nav-label">工作區</div><nav>
+      <div><div class="nav-label">今日工作</div><nav>
         <button class="nav-btn active" data-view="overview"><span class="ico">◫</span>總覽</button>
         <button class="nav-btn" data-view="checkin"><span class="ico">✓</span>入住 Check-in</button>
+        <button class="nav-btn" data-view="checkout"><span class="ico">↗</span>退宿 Check-Out</button>
+      </nav></div>
+      <div><div class="nav-section-label">資料查詢</div><nav>
         <button class="nav-btn" data-view="beds"><span class="ico">▦</span>房間與床位</button>
         <button class="nav-btn" data-view="students"><span class="ico">♙</span>學生資料</button>
-        <button class="nav-btn" data-view="checkout"><span class="ico">↗</span>退宿 Check-Out</button>
         <button class="nav-btn" data-view="electric"><span class="ico">⚡</span>電費計算</button>
       </nav></div>
       <div class="side-foot">資料同步正常<br><span>最後更新：今天 09:42</span></div>
@@ -105,6 +354,7 @@
       <section id="overview" class="view active">
         <div class="topbar"><div><div class="eyebrow">2026 秋季學期</div><h1>早安，住宿管理室</h1><p class="sub">掌握入住、退宿與床位狀態。</p></div><div class="actions"><button class="btn btn-plain" data-action="export">⇩ 匯出報表</button><button class="btn btn-primary" data-view-target="students">＋ 匯入學生 Excel</button></div></div>
         <div class="stats"><div class="stat"><div class="label">目前入住</div><div class="num blue">842</div><div class="hint">共 960 個床位</div></div><div class="stat"><div class="label">今日待入住</div><div class="num amber">38</div><div class="hint">已完成資料 31 人</div></div><div class="stat"><div class="label">待處理退宿</div><div class="num red">12</div><div class="hint">其中 4 件待驗房</div></div><div class="stat"><div class="label">本月電費</div><div class="num green">$42,680</div><div class="hint">較上月少 8.4%</div></div></div>
+        <div class="command-grid"><section class="command-panel"><div class="command-head"><div><h2>今日工作佇列</h2><p>依照影響床位與等待時間排序</p></div><span class="badge amber">12 件待處理</span></div><div class="command-list"><div class="command-item"><div class="command-icon">↗</div><div><strong>完成退宿驗房與抄表</strong><small>陳冠宇・70401・2 號床・電表待抄錄</small></div><time>今天 13:00</time></div><div class="command-item"><div class="command-icon">✓</div><div><strong>核對今日入住預約</strong><small>38 位預約・31 位已完成・5 位待核對</small></div><time>進行中</time></div><div class="command-item"><div class="command-icon amber">⚡</div><div><strong>完成房間電費結算</strong><small>F70201・4 床・每人應繳 $344</small></div><time>待確認</time></div></div><div class="quick-actions"><button data-view-target="checkin"><b>刷學生證</b><span>入住 / 退宿共用入口</span></button><button data-view-target="checkin"><b>掃描電子憑證</b><span>遠端預約現場核對</span></button><button data-view-target="electric"><b>查詢房間</b><span>一次看四床與電表</span></button></div></section><section class="command-panel"><div class="command-head"><div><h2>床位狀態脈搏</h2><p>先看哪一層最需要處理</p></div><span class="badge green">同步正常</span></div><div class="pulse-list"><div class="pulse-row"><div><span>2 樓・性別友善</span><b>92%</b></div><div class="pulse-track"><div class="pulse-fill" style="width:92%"></div></div></div><div class="pulse-row"><div><span>3–6 樓</span><b>86%</b></div><div class="pulse-track"><div class="pulse-fill" style="width:86%"></div></div></div><div class="pulse-row"><div><span>7–9 樓</span><b>84%</b></div><div class="pulse-track"><div class="pulse-fill" style="width:84%"></div></div></div><div class="pulse-row"><div><span>10–12 樓</span><b>89%</b></div><div class="pulse-track"><div class="pulse-fill" style="width:89%"></div></div></div></div><div class="pulse-metrics"><div><b>842</b><span>目前入住</span></div><div><b>118</b><span>可分配床位</span></div></div></section></div>
         <div class="grid-two"><div class="panel"><div class="panel-head"><div><h2>最近活動</h2><p class="panel-note">即時入住與退宿紀錄</p></div><button class="link" data-view-target="checkout">查看全部 →</button></div><div class="activity"><div class="activity-row"><div class="avatar">林</div><div><strong>林雨晴完成入住</strong><p>A-203 · 2號床 · QR 報到</p></div><span class="time">09:42</span></div><div class="activity-row"><div class="avatar">陳</div><div><strong>陳冠宇提交退宿</strong><p>B-105 · 4號床 · 待驗房</p></div><span class="time">09:18</span></div><div class="activity-row"><div class="avatar">吳</div><div><strong>吳佩珊完成電費結算</strong><p>A-118 · 退宿電表 8,430 度</p></div><span class="time">08:56</span></div><div class="activity-row"><div class="avatar">系</div><div><strong>學生資料匯入完成</strong><p>秋季入住名單 · 128 筆</p></div><span class="time">昨天</span></div></div></div>
         <div class="panel"><div class="panel-head"><div><h2>各樓層入住率</h2><p class="panel-note">學七舍目前 84.2% 使用中</p></div><span class="badge green">正常</span></div><div class="bar-group"><div><div class="bar-label"><span>2 樓・性別友善</span><strong>92%</strong></div><div class="bar-track"><div class="bar" style="width:92%"></div></div></div><div><div class="bar-label"><span>3–6 樓</span><strong>86%</strong></div><div class="bar-track"><div class="bar" style="width:86%"></div></div></div><div><div class="bar-label"><span>7–9 樓</span><strong>84%</strong></div><div class="bar-track"><div class="bar" style="width:84%"></div></div></div><div><div class="bar-label"><span>10–12 樓</span><strong>89%</strong></div><div class="bar-track"><div class="bar" style="width:89%"></div></div></div></div></div></div>
         <div class="notice"><div class="ico">⚡</div><div><strong>有 12 筆退宿案件等待處理</strong><p>其中 4 位學生已到達退宿日期，完成驗房後床位才能重新分配。</p></div><button class="link" data-view-target="checkout">前往處理 →</button></div>
@@ -149,6 +399,68 @@
     const electricRoomPanel = document.getElementById('electricRoomTitle').closest('.panel'); electricRoomPanel.parentNode.insertBefore(electricCalcPanel,electricRoomPanel);
     const recalculateElectric = () => { const price=Number(document.getElementById('electricUnitPrice').value)||0; const residents=Math.max(1,Number(document.getElementById('electricResidents').value)||1); const start=Number(document.getElementById('electricStartMeter').value)||0; const end=Number(document.getElementById('electricEndMeter').value)||0; const usage=Math.max(0,end-start); const total=usage*price; const each=total/residents; document.getElementById('electricTotalUsage').textContent=`${usage.toLocaleString()} 度`; document.getElementById('electricTotalCost').textContent=`$${total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`; document.getElementById('electricPerPerson').textContent=`$${each.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`; document.getElementById('electricFormulaHint').textContent=`$${total.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})} ÷ ${residents} 人`; };
     document.getElementById('recalculateElectric').addEventListener('click',()=>{ recalculateElectric(); toast('已依寢室總電表與住宿人數重新計算'); }); ['electricUnitPrice','electricResidents','electricStartMeter','electricEndMeter'].forEach(id=>document.getElementById(id).addEventListener('input',recalculateElectric)); recalculateElectric();
+  </script>
+  <script>
+    const timelinePanel=document.createElement('div'); timelinePanel.className='panel room-timeline-panel'; timelinePanel.style.marginTop='19px'; timelinePanel.innerHTML=`<div class="panel-head"><div><h2>房間入住時間線</h2><p class="panel-note">用一眼看出四個床位目前誰住、住了多久、是否已退宿。</p></div><span class="badge blue">F70201・4 床</span></div><div class="room-timeline"><div class="room-timeline-row"><strong>1 號床</strong><div class="timeline-track"><div class="timeline-fill" style="width:100%"></div></div><small>王小明・09/01 至今</small></div><div class="room-timeline-row"><strong>2 號床</strong><div class="timeline-track"><div class="timeline-fill" style="width:65%"></div></div><small>林佳蓉・09/01–09/20</small></div><div class="room-timeline-row"><strong>3 號床</strong><div class="timeline-track"><div class="timeline-fill empty"></div></div><small>空床・可分配</small></div><div class="room-timeline-row"><strong>4 號床</strong><div class="timeline-track"><div class="timeline-fill" style="width:82%"></div></div><small>趙子豪・09/05 至今</small></div></div>`; const timelineAnchor=document.getElementById('electricRoomTitle').closest('.panel'); timelineAnchor.parentNode.insertBefore(timelinePanel,timelineAnchor);
+  </script>
+  <script>
+    electricCalcPanel.style.display='none';
+    timelinePanel.innerHTML=`<div class="panel-head"><div><h2>房間入住接續時間線</h2><p class="panel-note">同一床位保留前任與現任學生，退宿後的床位接續不會遺失。</p></div><span class="badge blue">F70201・4 床</span></div><div class="succession-track"><div class="succession-row"><div class="succession-bed">1 號床</div><div class="succession-lane"><div class="succession-segment current" style="width:100%"><strong>王小明</strong><small>09/01–至今・現住</small></div></div><span class="succession-status">目前入住</span></div><div class="succession-row"><div class="succession-bed">2 號床</div><div class="succession-lane"><div class="succession-segment retired" style="width:38%"><strong>林佳蓉</strong><small>09/01–09/20・已退宿</small></div><div class="succession-segment current" style="width:62%"><strong>吳嘉玲</strong><small>09/21–至今・現住</small></div></div><span class="succession-status">床位已接續</span></div><div class="succession-row"><div class="succession-bed">3 號床</div><div class="succession-lane"><div class="succession-segment retired" style="width:100%"><strong>空床</strong><small>目前可分配</small></div></div><span class="succession-status">可分配</span></div><div class="succession-row"><div class="succession-bed">4 號床</div><div class="succession-lane"><div class="succession-segment current" style="width:100%"><strong>趙子豪</strong><small>09/05–至今・現住</small></div></div><span class="succession-status">目前入住</span></div></div>`;
+    const segmentCalcPanel=document.createElement('div'); segmentCalcPanel.className='panel segment-calc'; segmentCalcPanel.innerHTML=`<div class="panel-head"><div><h2>分段電費計算</h2><p class="panel-note">依每段電表差額 × 每度單價 ÷ 該段住宿人數；換床位不會把前任與現任混在一起。</p></div><span class="badge green">接續計算</span></div><div class="input-row"><label class="input-label" for="segmentUnitPrice" style="flex:1">每度電單價（元）<input class="field" id="segmentUnitPrice" type="number" min="0" step="0.01" value="3.20" /></label></div><div class="segment-table"><table><thead><tr><th>用電區間</th><th>電表起訖</th><th>使用度數</th><th>該段人數</th><th>每人分攤</th></tr></thead><tbody><tr><td>09/01–09/20</td><td>8,000 → 8,120</td><td>120 度</td><td>3 人</td><td id="oldSegmentCost">$128.00 / 人</td></tr><tr><td>09/21–至今</td><td>8,120 → 8,430</td><td>310 度</td><td>3 人</td><td id="newSegmentCost">$330.67 / 人</td></tr></tbody></table></div><div class="segment-summary"><div class="segment-summary-card"><span>房間總用電</span><strong>430 度</strong></div><div class="segment-summary-card"><span>房間總電費</span><strong id="segmentTotalCost">$1,376.00</strong></div><div class="segment-summary-card"><span>吳嘉玲應繳</span><strong id="newResidentCost" class="green">$330.67</strong></div></div><p class="panel-note" style="margin-top:14px">示範：林佳蓉於 09/01–09/20 的分攤為 $128.00；吳嘉玲於 09/21 起接續計算為 $330.67。</p>`; const segmentAnchor=document.getElementById('electricRoomTitle').closest('.panel'); segmentAnchor.parentNode.insertBefore(segmentCalcPanel,segmentAnchor);
+    document.getElementById('segmentUnitPrice').addEventListener('input',()=>{ const price=Number(document.getElementById('segmentUnitPrice').value)||0; const oldCost=120*price/3; const newCost=310*price/3; document.getElementById('oldSegmentCost').textContent=`$${oldCost.toFixed(2)} / 人`; document.getElementById('newSegmentCost').textContent=`$${newCost.toFixed(2)} / 人`; document.getElementById('segmentTotalCost').textContent=`$${(430*price).toFixed(2)}`; document.getElementById('newResidentCost').textContent=`$${newCost.toFixed(2)}`; });
+    const showSuccessor=()=>{ const rows=[...document.querySelectorAll('#electricRoomRows tr')]; if(rows[1]) rows[1].innerHTML='<td>2 號床</td><td><strong>吳嘉玲</strong><br><small>S027</small><br><small class="retired-person">前任：林佳蓉・已退宿</small></td><td>2026/09/21</td><td>—</td><td>8,120</td><td>—</td><td>—</td><td>分段計算</td>'; }; showSuccessor(); document.getElementById('lookupRoomElectric').addEventListener('click',()=>setTimeout(showSuccessor,0));
+  </script>
+  <script>
+    const editableSegmentPanel=document.querySelector('.segment-calc'); const segmentRows=[{bed:'2 號床',person:'林佳蓉',period:'09/01–09/20',start:8000,end:8120,residents:3,status:'已退宿'},{bed:'2 號床',person:'吳嘉玲',period:'09/21–至今',start:8120,end:8430,residents:3,status:'現住'}];
+    editableSegmentPanel.innerHTML=`<div class="panel-head"><div><h2>可編輯分段電費計算</h2><p class="panel-note">每次有人入住或退宿，就新增一段；每段輸入該時段的入住與退宿電錶。</p></div><span class="badge green">依區間分攤</span></div><div class="input-row"><label class="input-label" for="editableUnitPrice" style="flex:0 0 180px">每度電單價（元）<input class="field" id="editableUnitPrice" type="number" min="0" step="0.01" value="3.20" /></label><div class="panel-note" style="align-self:center">公式： (退宿電錶 − 入住電錶) × 單價 ÷ 該段入住人數</div></div><div class="segment-editor"><table><thead><tr><th>床位</th><th>學生</th><th>住宿區間</th><th>入住電錶</th><th>退宿電錶</th><th>入住人數</th><th>使用度數</th><th>個人應繳</th><th>狀態</th><th></th></tr></thead><tbody id="editableSegmentRows"></tbody></table></div><div class="segment-add-row"><small>換床位或更換住戶時，保留上一列並新增下一段，電錶起點接續上一段終點。</small><button class="segment-add" id="addSegment">＋ 新增計算區間</button></div><div class="segment-summary"><div class="segment-summary-card"><span>目前總用電</span><strong id="editableTotalUsage">430 度</strong></div><div class="segment-summary-card"><span>分段總電費</span><strong id="editableTotalCost">$1,376.00</strong></div><div class="segment-summary-card"><span>目前人員應繳合計</span><strong id="editableCurrentCost" class="green">$330.67</strong></div></div>`;
+    const renderEditableSegments=()=>{ const price=Number(document.getElementById('editableUnitPrice').value)||0; document.getElementById('editableSegmentRows').innerHTML=segmentRows.map((r,i)=>`<tr><td><input class="mini-field seg-bed" data-i="${i}" value="${r.bed}" /></td><td><input class="mini-field seg-person" data-i="${i}" value="${r.person}" /></td><td><input class="mini-field seg-period" data-i="${i}" value="${r.period}" /></td><td><input class="mini-field seg-start" data-i="${i}" type="number" min="0" value="${r.start}" /></td><td><input class="mini-field seg-end" data-i="${i}" type="number" min="0" value="${r.end}" /></td><td><input class="mini-field seg-residents" data-i="${i}" type="number" min="1" value="${r.residents}" /></td><td class="usage-cell" id="segUsage${i}">0 度</td><td class="cost-cell" id="segCost${i}">$0.00</td><td><span class="badge ${r.status==='現住'?'green':'amber'}">${r.status}</span></td><td><button class="remove-segment" data-remove="${i}" aria-label="刪除第 ${i+1} 段">移除</button></td></tr>`).join(''); recalculateSegments(); };
+    const recalculateSegments=()=>{ const price=Number(document.getElementById('editableUnitPrice').value)||0; let totalUsage=0,totalCost=0,currentCost=0; segmentRows.forEach((r,i)=>{ r.start=Number(document.querySelector(`.seg-start[data-i="${i}"]`)?.value)||0; r.end=Number(document.querySelector(`.seg-end[data-i="${i}"]`)?.value)||0; r.residents=Math.max(1,Number(document.querySelector(`.seg-residents[data-i="${i}"]`)?.value)||1); const usage=Math.max(0,r.end-r.start),cost=usage*price/r.residents; totalUsage+=usage; totalCost+=usage*price; if(r.status==='現住') currentCost+=cost; const u=document.getElementById(`segUsage${i}`),c=document.getElementById(`segCost${i}`); if(u)u.textContent=`${usage.toLocaleString()} 度`; if(c)c.textContent=`$${cost.toFixed(2)}`; }); document.getElementById('editableTotalUsage').textContent=`${totalUsage.toLocaleString()} 度`; document.getElementById('editableTotalCost').textContent=`$${totalCost.toFixed(2)}`; document.getElementById('editableCurrentCost').textContent=`$${currentCost.toFixed(2)}`; };
+    document.getElementById('editableUnitPrice').addEventListener('input',recalculateSegments); document.getElementById('editableSegmentRows').addEventListener('input',recalculateSegments); document.getElementById('editableSegmentRows').addEventListener('click',e=>{ const index=e.target.dataset.remove; if(index!==undefined && segmentRows.length>1){ segmentRows.splice(Number(index),1); renderEditableSegments(); } }); document.getElementById('addSegment').addEventListener('click',()=>{ const last=segmentRows[segmentRows.length-1]; segmentRows.push({bed:'選擇床位',person:'新入住學生',period:'請輸入日期',start:last?.end||0,end:last?.end||0,residents:3,status:'現住'}); renderEditableSegments(); }); renderEditableSegments();
+  </script>
+  <script>
+    document.querySelector('.succession-track').innerHTML=`<div class="succession-row"><div class="succession-bed">1 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start">8,000 度</span><span class="meter-marker end">目前待抄表</span></div><div class="succession-lane"><div class="succession-segment current" style="width:100%"><strong>王小明</strong><small>09/01–至今・現住</small></div></div></div><span class="succession-status">目前入住</span></div><div class="succession-row"><div class="succession-bed">2 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start">8,000 度</span><span class="meter-marker" style="left:38%">8,120 度</span><span class="meter-marker end">8,430 度</span></div><div class="succession-lane"><div class="succession-segment retired" style="width:38%"><strong>林佳蓉</strong><small>09/01–09/20・已退宿</small></div><div class="succession-segment current" style="width:62%"><strong>吳嘉玲</strong><small>09/21–至今・現住</small></div></div></div><span class="succession-status">床位已接續</span></div><div class="succession-row"><div class="succession-bed">3 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start">尚無電表</span></div><div class="succession-lane"><div class="succession-segment retired" style="width:100%"><strong>空床</strong><small>目前可分配</small></div></div></div><span class="succession-status">可分配</span></div><div class="succession-row"><div class="succession-bed">4 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start">8,120 度</span><span class="meter-marker end">目前待抄表</span></div><div class="succession-lane"><div class="succession-segment current" style="width:100%"><strong>趙子豪</strong><small>09/05–至今・現住</small></div></div></div><span class="succession-status">目前入住</span></div>`;
+  </script>
+  <script>
+    const timelinePanelFinal=document.querySelector('.room-timeline-panel'); timelinePanelFinal.innerHTML=`<div class="panel-head"><div><h2>房間入住時間線</h2><p class="panel-note">同一床位保留前任與現任學生，電表度數對應每次入住或退宿節點。</p></div><span class="badge blue">F70201・4 床</span></div><div class="meter-source-bar"><span>電表度數來源</span><select class="meter-source-select" id="meterSourceMode"><option value="system">系統帶入</option><option value="manual">手動修改</option></select></div><div class="succession-track"><div class="succession-row"><div class="succession-bed">1 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start"><span class="meter-marker-value">8,000 度</span><input class="meter-input" value="8000" aria-label="1號床入住電表" /></span><span class="meter-marker end">目前待抄表</span></div><div class="succession-lane"><div class="succession-segment current" style="width:100%"><strong>王小明</strong><small>09/01–至今・現住</small></div></div></div><span class="succession-status">目前入住</span></div><div class="succession-row"><div class="succession-bed">2 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start"><span class="meter-marker-value">8,000 度</span><input class="meter-input" value="8000" aria-label="2號床前段入住電表" /></span><span class="meter-marker" style="left:38%"><span class="meter-marker-value">8,120 度</span><input class="meter-input" value="8120" aria-label="2號床換宿電表" /></span><span class="meter-marker end"><span class="meter-marker-value">8,430 度</span><input class="meter-input" value="8430" aria-label="2號床目前電表" /></span></div><div class="succession-lane"><div class="succession-segment retired" style="width:38%"><strong>林佳蓉</strong><small>09/01–09/20・已退宿</small></div><div class="succession-segment current" style="width:62%"><strong>吳嘉玲</strong><small>09/21–至今・現住</small></div></div></div><span class="succession-status">床位已接續</span></div><div class="succession-row"><div class="succession-bed">3 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start">尚無電表</span></div><div class="succession-lane"><div class="succession-segment retired" style="width:100%"><strong>空床</strong><small>目前可分配</small></div></div></div><span class="succession-status">可分配</span></div><div class="succession-row"><div class="succession-bed">4 號床</div><div class="meter-lane"><div class="meter-labels"><span class="meter-marker start"><span class="meter-marker-value">8,120 度</span><input class="meter-input" value="8120" aria-label="4號床入住電表" /></span><span class="meter-marker end">目前待抄表</span></div><div class="succession-lane"><div class="succession-segment current" style="width:100%"><strong>趙子豪</strong><small>09/05–至今・現住</small></div></div></div><span class="succession-status">目前入住</span></div></div>`;
+    const sourceBar=document.querySelector('.meter-source-bar'), sourceMode=document.getElementById('meterSourceMode'); sourceMode.addEventListener('change',()=>sourceBar.classList.toggle('manual',sourceMode.value==='manual'));
+    const roomPanelToReplace=document.getElementById('electricRoomTitle')?.closest('.panel'); if(roomPanelToReplace) roomPanelToReplace.style.display='block';
+    const heatPumpPanel=document.createElement('section'); heatPumpPanel.className='panel heatpump-panel'; heatPumpPanel.innerHTML=`<div class="panel-head"><div><h2>熱泵水電費計算</h2><p class="panel-note">依學生實際入住天數計算熱泵維護費、熱泵水費與熱泵電費。</p></div><span class="badge green">可調變數</span></div><div class="heatpump-grid"><div class="heatpump-field"><label for="heatStartDate">入住日期</label><input id="heatStartDate" type="date" value="2026-09-01" /></div><div class="heatpump-field"><label for="heatEndDate">退宿日期</label><input id="heatEndDate" type="date" value="2026-09-20" /></div><div class="heatpump-field"><label for="heatMaintenanceMonthly">每月熱泵維護費</label><input id="heatMaintenanceMonthly" type="number" value="50" step="1" /></div><div class="heatpump-field"><label for="heatMaintenanceShortDays">不足幾天收半額</label><input id="heatMaintenanceShortDays" type="number" value="15" step="1" /></div></div><div class="heatpump-subtitle">計算變數</div><div class="heatpump-grid"><div class="heatpump-field"><label for="heatWaterDaily">熱泵水每日均值（度）</label><input id="heatWaterDaily" type="number" value="0.04" step="0.01" /></div><div class="heatpump-field"><label for="heatWaterPrice">熱泵水每度單價（元）</label><input id="heatWaterPrice" type="number" value="25" step="0.01" /></div><div class="heatpump-field"><label for="heatElectricDaily">熱泵電每日均值（度）</label><input id="heatElectricDaily" type="number" value="0.54" step="0.01" /></div><div class="heatpump-field"><label for="heatElectricPrice">熱泵電每度單價（元）</label><input id="heatElectricPrice" type="number" value="3.50" step="0.01" /></div></div><div class="heatpump-results"><div class="heatpump-result"><span>入住天數</span><strong id="heatDays">19 天</strong></div><div class="heatpump-result"><span>熱泵維護費</span><strong id="heatMaintenanceCost">$50.00</strong></div><div class="heatpump-result"><span>熱泵水費＋電費</span><strong id="heatUsageCost">$54.91</strong></div><div class="heatpump-result heatpump-total"><span>本次應繳合計</span><strong id="heatTotalCost">$104.91</strong></div></div><p class="heatpump-note">公式：((退宿日期−入住日期) × 熱泵水每日均值 × 熱泵水每度單價) ＋ ((退宿日期−入住日期) × 熱泵電每日均值 × 熱泵電每度單價) ＋ 熱泵維護費。</p>`; const heatAnchor=document.querySelector('.segment-calc'); heatAnchor.parentNode.insertBefore(heatPumpPanel,heatAnchor);
+    const heatIds=['heatStartDate','heatEndDate','heatMaintenanceMonthly','heatMaintenanceShortDays','heatWaterDaily','heatWaterPrice','heatElectricDaily','heatElectricPrice']; const calcHeatPump=()=>{ const start=new Date(document.getElementById('heatStartDate').value),end=new Date(document.getElementById('heatEndDate').value); const days=Math.max(0,Math.round((end-start)/86400000)); const maintenance=days<Number(document.getElementById('heatMaintenanceShortDays').value||15)?Number(document.getElementById('heatMaintenanceMonthly').value||50)/2:Number(document.getElementById('heatMaintenanceMonthly').value||50); const water=days*Number(document.getElementById('heatWaterDaily').value||0)*Number(document.getElementById('heatWaterPrice').value||0); const electric=days*Number(document.getElementById('heatElectricDaily').value||0)*Number(document.getElementById('heatElectricPrice').value||0); document.getElementById('heatDays').textContent=`${days} 天`; document.getElementById('heatMaintenanceCost').textContent=`$${maintenance.toFixed(2)}`; document.getElementById('heatUsageCost').textContent=`$${(water+electric).toFixed(2)}`; document.getElementById('heatTotalCost').textContent=`$${(maintenance+water+electric).toFixed(2)}`; }; heatIds.forEach(id=>document.getElementById(id).addEventListener('input',calcHeatPump)); calcHeatPump(); document.querySelector('.segment-calc').style.display='none';
+  </script>
+  <script>
+    document.querySelector('.segment-calc').style.display='block';
+    const restoredRoomPanel=document.getElementById('electricRoomTitle')?.closest('.panel');
+    if(restoredRoomPanel) restoredRoomPanel.style.display='none';
+    const segmentPanel=document.querySelector('.segment-calc');
+    const heatPanel=document.querySelector('.heatpump-panel');
+    if(segmentPanel && heatPanel) heatPanel.parentNode.insertBefore(segmentPanel,heatPanel);
+    const bedOptions=['1 號床','2 號床','3 號床','4 號床'];
+    const isoDateFromLabel=(value,index)=>{
+      const matches=String(value||'').match(/(\d{2})\/(\d{2})/g)||[];
+      if(matches[index]) return `2026-${matches[index].replace('/','-')}`;
+      return '';
+    };
+    const enhanceSegmentRows=()=>{
+      document.querySelectorAll('#editableSegmentRows tr').forEach((row,index)=>{
+        const bedInput=row.querySelector('.seg-bed');
+        if(bedInput && bedInput.tagName!=='SELECT'){
+          const select=document.createElement('select'); select.className='mini-field seg-bed'; select.dataset.i=bedInput.dataset.i;
+          bedOptions.forEach(option=>{ const item=document.createElement('option'); item.value=option; item.textContent=option; item.selected=option===bedInput.value; select.appendChild(item); });
+          bedInput.replaceWith(select);
+        }
+        const periodInput=row.querySelector('.seg-period');
+        if(periodInput && periodInput.type!=='date'){
+          const period=periodInput.value;
+          const wrap=document.createElement('div'); wrap.className='date-range-fields';
+          const start=document.createElement('input'); start.type='date'; start.className='mini-field seg-date-start'; start.dataset.i=periodInput.dataset.i; start.value=isoDateFromLabel(period,0);
+          const end=document.createElement('input'); end.type='date'; end.className='mini-field seg-date-end'; end.dataset.i=periodInput.dataset.i; end.value=isoDateFromLabel(period,1);
+          const label=document.createElement('span'); label.textContent='至'; label.className='date-range-separator';
+          wrap.append(start,label,end); periodInput.replaceWith(wrap);
+        }
+      });
+    };
+    enhanceSegmentRows();
+    document.getElementById('addSegment')?.addEventListener('click',()=>setTimeout(enhanceSegmentRows,0));
   </script>
 </body>
 </html>
