@@ -332,6 +332,27 @@
     .heatpump-note { margin-top:13px; color:#86868b; font-size:11px; }
     @media (max-width:900px) { .heatpump-grid { grid-template-columns:repeat(2,1fr); } .heatpump-results { grid-template-columns:repeat(2,1fr); } }
     @media (max-width:760px) { .meter-source-bar { align-items:flex-start; flex-direction:column; } .heatpump-grid,.heatpump-results { grid-template-columns:1fr; } }
+    .mobile-bar,.mobile-drawer-overlay { display:none; }
+    @media (max-width:760px) {
+      body { padding-top:58px; }
+      .mobile-bar { position:fixed; inset:0 0 auto 0; z-index:50; display:flex; align-items:center; justify-content:space-between; min-height:58px; padding:env(safe-area-inset-top) 16px 0; background:#0071e3; color:#fff; box-shadow:0 5px 18px rgba(0,71,145,.22); }
+      .mobile-bar-title { display:flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:.02em; }
+      .mobile-bar-mark { width:28px; height:28px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.65); border-radius:9px; font-size:17px; }
+      .mobile-menu-btn { width:40px; height:40px; display:grid; place-items:center; border:0; border-radius:12px; background:rgba(255,255,255,.16); color:#fff; font-size:24px; line-height:1; }
+      .mobile-menu-btn:active { transform:scale(.96); }
+      aside { position:fixed !important; inset:0 auto 0 0; z-index:60; display:flex !important; width:min(82vw,310px); height:100dvh; min-height:100dvh; padding:24px 16px; flex-direction:column; gap:20px; background:#fff; box-shadow:14px 0 40px rgba(0,0,0,.18); transform:translateX(-105%); transition:transform .28s ease; overflow:auto; }
+      body.menu-open aside { transform:translateX(0); }
+      aside .brand { display:flex; padding:0 4px 14px; border-bottom:1px solid #e5e5ea; }
+      aside .brand span { display:block; }
+      aside nav { display:grid; overflow:visible; }
+      aside .nav-label, aside .nav-section-label, aside .side-foot { display:block; }
+      aside .nav-btn { width:100%; flex:none; padding:13px 14px; color:#6e6e73; }
+      aside .nav-btn.active { color:#1d1d1f; }
+      aside .nav-btn.active:before { left:0; right:auto; top:10px; bottom:10px; width:3px; height:auto; border-radius:0 4px 4px 0; }
+      .mobile-drawer-overlay { position:fixed; inset:0; z-index:55; display:block; background:rgba(0,0,0,.28); opacity:0; pointer-events:none; transition:opacity .28s ease; }
+      body.menu-open .mobile-drawer-overlay { opacity:1; pointer-events:auto; }
+      main { padding-top:20px; }
+    }
   </style>
 </head>
 <body>
@@ -461,6 +482,16 @@
     };
     enhanceSegmentRows();
     document.getElementById('addSegment')?.addEventListener('click',()=>setTimeout(enhanceSegmentRows,0));
+  </script>
+  <script>
+    const mobileBar=document.createElement('header'); mobileBar.className='mobile-bar'; mobileBar.innerHTML='<div class="mobile-bar-title"><span class="mobile-bar-mark">⌂</span><span>學七舍營運台</span></div><button class="mobile-menu-btn" aria-label="開啟項目選單" aria-expanded="false">☰</button>';
+    const mobileOverlay=document.createElement('div'); mobileOverlay.className='mobile-drawer-overlay'; mobileOverlay.setAttribute('aria-hidden','true');
+    document.body.prepend(mobileOverlay); document.body.prepend(mobileBar);
+    const mobileMenuButton=mobileBar.querySelector('.mobile-menu-btn');
+    const toggleMobileMenu=open=>{ document.body.classList.toggle('menu-open',open); mobileMenuButton.setAttribute('aria-expanded',String(open)); mobileMenuButton.textContent=open?'×':'☰'; };
+    mobileMenuButton.addEventListener('click',()=>toggleMobileMenu(!document.body.classList.contains('menu-open')));
+    mobileOverlay.addEventListener('click',()=>toggleMobileMenu(false));
+    document.querySelectorAll('aside .nav-btn').forEach(button=>button.addEventListener('click',()=>toggleMobileMenu(false)));
   </script>
 </body>
 </html>
